@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.userfront.dao.RoleDao;
 import com.userfront.domain.User;
 import com.userfront.domain.security.UserRole;
 import com.userfront.service.UserService;
 
 @Controller
 public class HomeController {
+	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RoleDao roleDao;
 	
 	@RequestMapping("/")
 	public String home() {
@@ -43,7 +48,7 @@ public class HomeController {
 		
 		if(userService.checkUserExists(user.getUsername(), user.getEmail())){
 			if (userService.checkUsernameExists(user.getUsername())){
-				model.addAttribute("userNameExists", true);
+				model.addAttribute("usernameExists", true);
 			}
 			if (userService.checkEmailExists(user.getEmail())){
 				model.addAttribute("emailExists", true);
@@ -51,9 +56,9 @@ public class HomeController {
 			return "signup";
 		} else {
 			Set<UserRole> userRoles = new HashSet<>();
-			userRoles.add(new UserRole(user, roleDao.findByName("USER")));
+			userRoles.add(new UserRole(user, roleDao.findByName("ROLE_USER")));
 			
-			userService.save(user, userRoles);
+			userService.createUser(user, userRoles);
 			
 			return "redirect:/";
 		}

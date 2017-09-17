@@ -12,14 +12,16 @@ import javax.persistence.OneToMany;
 @Entity
 public class Role {
 	@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	private int roleId;
+	
 	private String name;
 	
 	@OneToMany(mappedBy="role", cascade= CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<UserRole> userRoles = new HashSet<>();
 
 	public Role() {
-		super();
+		
 	}
 
 	public int getRoleId() {

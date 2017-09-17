@@ -24,10 +24,11 @@ import com.userfront.domain.security.UserRole;
 
 @Entity
 public class User implements UserDetails {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5269822550888855768L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -63,6 +64,12 @@ public class User implements UserDetails {
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 	
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
 	public Long getUserId() {
 		return userId;
 	}
@@ -105,9 +112,7 @@ public class User implements UserDetails {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public boolean isEnabled() {
-		return enabled;
-	}
+	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -135,21 +140,25 @@ public class User implements UserDetails {
 	public void setRecipientList(List<Recipient> recipientList) {
 		this.recipientList = recipientList;
 	}
+	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + username + ", password=" + password + ", firstName="
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled="
 				+ enabled + ", primaryAccount=" + primaryAccount + ", savingsAccount=" + savingsAccount
-				+ ", appointmentList=" + appointmentList + ", recipientList=" + recipientList + "]";
+				+ ", appointmentList=" + appointmentList + ", recipientList=" + recipientList + ", userRoles="
+				+ userRoles + "]";
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// Asuminedo que estamos usando conections en Java
+		// 
 		Set<GrantedAuthority> authorities = new HashSet<>();
 		userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
 		return authorities;
 	}
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -162,4 +171,9 @@ public class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
 }
