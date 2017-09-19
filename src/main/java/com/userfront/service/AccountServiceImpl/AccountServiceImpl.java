@@ -1,6 +1,8 @@
 package com.userfront.service.AccountServiceImpl;
 
 import java.math.BigDecimal;
+import java.security.Principal;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.userfront.dao.PrimaryAccountDao;
 import com.userfront.dao.SavingsAccountDao;
 import com.userfront.domain.PrimaryAccount;
+import com.userfront.domain.PrimaryTransaction;
 import com.userfront.domain.SavingsAccount;
+import com.userfront.domain.SavingsTransaction;
+import com.userfront.domain.User;
 import com.userfront.service.AccountService;
+import com.userfront.service.UserService;
 
 @Service
 @Transactional
@@ -26,6 +32,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private SavingsAccountDao savingsAccountDao;
+	
+	@Autowired
+	private UserService userService;
 	
 	private int accountGen(){
 		LOG.info("nextAccountNumber: {}." + nextAccountNumber);
@@ -52,6 +61,30 @@ public class AccountServiceImpl implements AccountService {
 		savingsAccountDao.save(savingsAccount);
 		
 		return savingsAccountDao.findByAccountNumber(savingsAccount.getAccountNumber());
+	}
+	
+	public void deposit(String accountType, double amount, Principal principal){
+		User user = userService.findByUsername(principal.getName());
+		
+		Date date = new Date();
+		
+		if (accountType.equalsIgnoreCase("Primary")){
+			PrimaryAccount primaryAccount = user.getPrimaryAccount();
+			primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().add(new BigDecimal(amount)));
+			primaryAccountDao.save(primaryAccount);
+			
+			PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Deposit to Primary Account", "account","finished", amount, primaryAccount.getAccountBalance(),primaryAccount);
+			// Falta persistirlo en la base de datos
+			
+		} else if (accountType.equalsIgnoreCase("Savings")){
+			SavingsAccount savingsAccount = user.getSavingsAccount();
+			savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().add(new BigDecimal(amount)));
+			savingsAccountDao.save(savingsAccount);
+			
+			SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Deposit to Savings Account", "account","finished", amount, savingsAccount.getAccountBalance(), savingsAccount);
+			
+		}
+		
 	}
 
 }
