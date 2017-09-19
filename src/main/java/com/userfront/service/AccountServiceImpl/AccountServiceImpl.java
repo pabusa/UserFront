@@ -103,7 +103,7 @@ public class AccountServiceImpl implements AccountService {
 			primaryAccountDao.save(primaryAccount);
 			
 			PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Withdraw from Primary Account", "account","finished", amount, primaryAccount.getAccountBalance(),primaryAccount);
-			transactionService.savePrimaryDepositTransaction(primaryTransaction);
+			transactionService.savePrimaryWithdrawTransaction(primaryTransaction);
 			
 		} else if (accountType.equalsIgnoreCase("Savings")){
 			SavingsAccount savingsAccount = user.getSavingsAccount();
@@ -111,7 +111,7 @@ public class AccountServiceImpl implements AccountService {
 			savingsAccountDao.save(savingsAccount);
 			
 			SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Withdraw from Savings Account", "account","finished", amount, savingsAccount.getAccountBalance(), savingsAccount);
-			transactionService.saveSavingsDepositTransaction(savingsTransaction);
+			transactionService.saveSavingsWithdrawTransaction(savingsTransaction);
 		}
 	}
 	
