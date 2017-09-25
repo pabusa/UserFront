@@ -103,7 +103,4 @@ public class PrimaryTransaction {
 	public void setPrimaryAccount(PrimaryAccount primaryAccount) {
 		this.primaryAccount = primaryAccount;
 	}
-	
-	
-	
 }
