@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.userfront.dao.PrimaryAccountDao;
 import com.userfront.dao.PrimaryTransactionDao;
+import com.userfront.dao.RecipientDao;
 import com.userfront.dao.SavingsAccountDao;
 import com.userfront.dao.SavingsTransactionDao;
 import com.userfront.domain.PrimaryAccount;
@@ -38,6 +40,9 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	@Autowired
 	private SavingsTransactionDao savingsTransactionDao;
+	
+	@Autowired
+	private RecipientDao recipientDao;
 	
 	public List<PrimaryTransaction> findPrimaryTransactionList(String username){
 		User user = userService.findByUsername(username); 
@@ -117,9 +122,25 @@ public class TransactionServiceImpl implements TransactionService {
 		
 	}
 
-	@Override
 	public List<Recipient> findRecipientList(Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+		String username = principal.getName();
+		
+		List<Recipient> recipientList = recipientDao.findAll().stream() // convert list to stream
+				.filter(recipient -> username.equals(recipient.getUser().getUsername())) // filters the line,
+				.collect(Collectors.toList());
+		
+		return recipientList;
+	}
+	
+	public Recipient saveRecipient(Recipient recipient) {
+		return recipientDao.save(recipient);
+	}
+	
+	public Recipient findRecipientByName (String recipientName) {
+		return recipientDao.findByName(recipientName);
+	}
+	
+	public void deleteRecipientByName (String recipientName) {
+		recipientDao.deleteByName(recipientName);
 	}
 }

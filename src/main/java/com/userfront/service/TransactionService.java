@@ -19,4 +19,7 @@ public interface TransactionService {
 	public void betweenAccountsTransfer(String transferFrom, String transferTo, String transferAmount,
 			PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
 	public List<Recipient> findRecipientList(Principal principal);
+	public Recipient saveRecipient(Recipient recipient);
+	public Recipient findRecipientByName (String recipientName);
+	public void deleteRecipientByName (String recipientName);
 }
