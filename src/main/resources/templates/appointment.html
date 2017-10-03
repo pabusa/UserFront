@@ -5,7 +5,7 @@
 <head th:replace="common/header :: navbar"/>
 <div class="container main">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <h3>Schedule An Appointment</h3>
             <form th:action="@{/appointment/create}" method="post" id="appointmentForm">
                 <input type="hidden" name="id" th:value="${appointment.id}"/>
@@ -23,9 +23,8 @@
 
                 <div class="form-group">
                     <label for="location">Pick a location:</label>
-                    <select class="form-control" th:value="${appointment.location}" name="location" id="location"
-                            >
-                        <option disabled="disabled" selected="selected" > -- select the location --</option>
+                    <select class="form-control" th:value="${appointment.location}" name="location" id="location">
+                        <option disabled="disabled" selected="selected" ><i>-- select the location --</i></option>
                         <option>Boston</option>
                         <option>New York</option>
                         <option>Chicago</option>
@@ -46,7 +45,7 @@
                 <a class="btn btn-primary" id="submitAppointment">Submit Scheduling</a>
             </form>
 
-            <div class="col-md-6">
+            <div class="col-md-5">
             </div>
         </div>
     </div>
