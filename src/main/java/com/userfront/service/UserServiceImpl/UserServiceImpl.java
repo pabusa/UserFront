@@ -39,12 +39,10 @@ public class UserServiceImpl implements UserService {
 		userDao.save(user);
 	}
 
-	@Override
 	public User findByUsername(String username) {
 		return userDao.findByUsername(username);
 	}
 
-	@Override
 	public User findByEmail(String email) {
 		return userDao.findByEmail(email);
 	}
@@ -74,7 +72,6 @@ public class UserServiceImpl implements UserService {
 		return localUser;
 	}
 
-	@Override
 	public boolean checkUserExists(String username, String email) {
 		if (checkUsernameExists(username) ||  checkEmailExists(email)){
 			return true;
@@ -83,7 +80,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
 	public boolean checkUsernameExists(String username) {
 		if (null != findByUsername(username)){
 			return true;
@@ -92,7 +88,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
 	public boolean checkEmailExists(String email) {
 		if (null != findByEmail(email)){
 			return true;
@@ -100,5 +95,11 @@ public class UserServiceImpl implements UserService {
 			return false;	
 		}
 	}
+
+	public User saveUser(User user) {
+		return userDao.save(user);
+	}
+	
+	
 
 }

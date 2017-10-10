@@ -51,8 +51,7 @@
                         class="bg-danger pull-right" th:if="${emailExists}">Email already exists</span>
                     <div class="cols-sm-10">
                         <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-envelope fa"
-                                                                   aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" th:value="${user.email}" id="email" name="email"
                                    roleId="email" placeholder="Enter your Email" required="required"/>
                         </div>
@@ -60,8 +59,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="username" class="cols-sm-2 control-label">Username</label><span
-                        class="bg-danger pull-right" th:if="${usernameExists}">Username already exists</span>
+                    <label for="username" class="cols-sm-2 control-label">Username</label>
+                    <span class="bg-danger pull-right" th:if="${usernameExists}">Username already exists</span>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
